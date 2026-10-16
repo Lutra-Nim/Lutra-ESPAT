@@ -20,7 +20,7 @@
 ## traffic, and one found dead closes about three seconds later.
 
 import std/[macros, macrocache]
-import lutra/[at, fmt, tasks, time], lutra/hal/bytelink
+import lutra/[at, fmt, parse, tasks, time], lutra/hal/bytelink
 
 type
   EspAt*[L] = object
@@ -52,11 +52,8 @@ proc state[L](module: static EspAt[L]): ptr State =
   addr state
 
 proc number(line: openArray[char], at: var int): int =
-  ## The digits from `at`, and `at` moved past them and what ends them
-  while at < line.len and line[at] in '0'..'9':
-    result = 10 * result + ord(line[at]) - ord('0')
-    inc at
-  inc at
+  ## The number at `at`, and `at` moved past it and what ends it
+  at += line.parseInt(result, start = at) + 1
 
 proc notice[L](module: static EspAt[L]) =
   ## Takes note of a line the module sent unasked: data waiting for a
