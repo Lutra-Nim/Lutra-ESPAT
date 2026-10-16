@@ -1,7 +1,7 @@
 # lutra_espat
 ### Wi-Fi through an ESP32 running Espressif's AT firmware, for Lutra
 
-A driver for [Espressif's AT firmware](https://docs.espressif.com/projects/esp-at/), which turns an ESP32 into a Wi-Fi module that another board drives over a UART. It is written against [Lutra](https://github.com/garrettkinman/Lutra)'s `ByteLink` interface, and its sockets are Lutra `Socket`s, so Lutra's MQTT client runs over them.
+A driver for [Espressif's AT firmware](https://docs.espressif.com/projects/esp-at/), which turns an ESP32 into a Wi-Fi module that another board drives over a UART. It is written against [Lutra](https://github.com/Lutra-Nim/Lutra)'s `ByteLink` interface, and its sockets are Lutra `Socket`s, so Lutra's MQTT client runs over them.
 
 ```nim
 import lutra, lutra/mqtt, lutra_espat
