@@ -3,6 +3,12 @@
 
 A driver for [Espressif's AT firmware](https://docs.espressif.com/projects/esp-at/), which turns an ESP32 into a Wi-Fi module that another board drives over a UART. It is written against [Lutra](https://github.com/Lutra-Nim/Lutra)'s `ByteLink` interface, and its sockets are Lutra `Socket`s, so Lutra's MQTT client runs over them.
 
+```
+nimble install lutra_espat
+```
+
+installs it, and Lutra with it.
+
 ```nim
 import lutra, lutra/mqtt, lutra_espat
 
@@ -34,10 +40,12 @@ esptool --chip esp32c3 --port /dev/ttyUSB1 write-flash -z --flash-mode dio --fla
 
 That firmware takes commands on IO6 and answers on IO7, at 115200 baud. Wire the module's IO6 to the board's transmit pin, its IO7 to the board's receive pin, and ground to ground. The module needs power of its own, from its USB socket.
 
-The example in [examples/](examples) publishes the time each second to test.mosquitto.org and lights the LED on a message. It is run from that folder, with Lutra checked out beside this repository in a folder named `lutra`, and the network in `LUTRA_WIFI_NETWORK` and `LUTRA_WIFI_PASSWORD`:
+The example in [examples/](examples) publishes the time each second to test.mosquitto.org and lights the LED on a message. It is run from that folder, once `nimble install -d` in this repository has installed Lutra, with the network in `LUTRA_WIFI_NETWORK` and `LUTRA_WIFI_PASSWORD`:
 
 ```
 nim flash mqtt.nim
 ```
 
 `nim r tespat.nim` in [tests/](tests) checks the driver on the host, against a stand-in module that answers as the real one was seen to. Lutra's `nim wifi` check runs it on the boards.
+
+To work on this driver and Lutra together, with Lutra checked out beside this repository, run `nimble develop -a:../lutra` and then `nimble setup`, once. The examples and tests then use that checkout.
